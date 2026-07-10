@@ -47,5 +47,8 @@ Vyaay is a powerful, privacy-focused Android application designed to track your 
 ## 🔒 Privacy
 Vyaay values your privacy. All data is stored locally on your device in an encrypted-at-rest manner using Android's security best practices. Biometric authentication ensures only you can access the app.
 
+<img width="300" height="600" alt="image" src="https://github.com/user-attachments/assets/23e92514-1897-411b-9188-59f4be92bfba" />
+
+
 ---
 Made with ❤️ by Ayush
