@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,7 +23,8 @@ fun TransactionList(
     transactions: List<TransactionModel>, 
     modifier: Modifier = Modifier,
     headerContent: (LazyListScope.() -> Unit)? = null,
-    onTransactionClick: (TransactionModel) -> Unit = {}
+    onTransactionClick: (TransactionModel) -> Unit = {},
+    onDeleteTransaction: (TransactionModel) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -49,7 +53,10 @@ fun TransactionList(
                         .padding(horizontal = 16.dp)
                         .clickable { onTransactionClick(transaction) }
                 ) {
-                    TransactionItem(transaction)
+                    TransactionItem(
+                        transaction = transaction,
+                        onDelete = { onDeleteTransaction(transaction) }
+                    )
                 }
             }
         }
@@ -57,7 +64,7 @@ fun TransactionList(
 }
 
 @Composable
-fun TransactionItem(transaction: TransactionModel) {
+fun TransactionItem(transaction: TransactionModel, onDelete: () -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -65,14 +72,24 @@ fun TransactionItem(transaction: TransactionModel) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
-                Column {
-                    Text(
-                        text = transaction.category,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                Column(modifier = Modifier.weight(1f)) {
+                    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                        Text(
+                            text = transaction.category,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit Category",
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+                        )
+                    }
                     if (transaction.isShared) {
                         Text(
                             text = "Split: ₹${transaction.splitAmount} (Partner)", 
@@ -81,12 +98,21 @@ fun TransactionItem(transaction: TransactionModel) {
                         )
                     }
                 }
-                Text(
-                    text = "₹${transaction.amount}",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                    Text(
+                        text = "₹${transaction.amount}",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    IconButton(onClick = onDelete) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete",
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(

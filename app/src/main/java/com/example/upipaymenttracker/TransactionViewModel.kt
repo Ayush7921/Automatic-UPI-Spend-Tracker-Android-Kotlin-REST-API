@@ -87,7 +87,11 @@ class TransactionViewModel(
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private fun detectSubscriptions(transactions: List<TransactionModel>): List<Subscription> {
-        val subKeywords = listOf("netflix", "spotify", "youtube", "amazon", "prime", "disney", "gym", "hotstar", "apple", "google")
+        val subKeywords = listOf(
+            "netflix", "spotify", "youtube", "amazon", "prime", "disney", "gym", "hotstar", "apple", "google",
+            "zee5", "sony liv", "voot", "jiocinema", "alt balaji", "gaana", "wynk", "audible", "canva", "adobe",
+            "microsoft", "office 365", "icloud", "dropbox", "tinder", "bumble", "cult.fit"
+        )
         return transactions.groupBy { it.note.lowercase() }
             .filter { (name, list) -> 
                 name.isNotEmpty() && name != "unknown merchant" && 
@@ -129,6 +133,14 @@ class TransactionViewModel(
 
     fun insert(transaction: TransactionModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(transaction)
+    }
+
+    fun delete(transaction: TransactionModel) = viewModelScope.launch(Dispatchers.IO) {
+        repository.delete(transaction)
+    }
+
+    fun update(transaction: TransactionModel) = viewModelScope.launch(Dispatchers.IO) {
+        repository.update(transaction)
     }
 
     fun setBudget(category: String, amount: Double) = viewModelScope.launch(Dispatchers.IO) {

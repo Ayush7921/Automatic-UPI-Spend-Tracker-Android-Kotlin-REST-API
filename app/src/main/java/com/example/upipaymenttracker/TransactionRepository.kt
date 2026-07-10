@@ -13,6 +13,14 @@ class TransactionRepository(
         transactionDao.insert(transaction)
     }
 
+    suspend fun delete(transaction: TransactionModel) {
+        transactionDao.delete(transaction)
+    }
+
+    suspend fun update(transaction: TransactionModel) {
+        transactionDao.update(transaction)
+    }
+
     suspend fun setBudget(budget: BudgetModel) {
         budgetDao.insertBudget(budget)
     }

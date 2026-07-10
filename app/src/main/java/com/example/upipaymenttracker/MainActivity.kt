@@ -175,6 +175,7 @@ fun MainAppScreen(viewModel: TransactionViewModel) {
     var showExportDialog by remember { mutableStateOf(false) }
     var currentTab by remember { mutableIntStateOf(0) }
     var transactionToSplit by remember { mutableStateOf<TransactionModel?>(null) }
+    var transactionToEditCategory by remember { mutableStateOf<TransactionModel?>(null) }
     
     val transactions by viewModel.filteredTransactions.collectAsState()
     val totalSpending by viewModel.totalSpending.collectAsState()
@@ -202,7 +203,7 @@ fun MainAppScreen(viewModel: TransactionViewModel) {
         uri?.let { TransactionExporter.writeToUri(context, it, TransactionExporter.generateTextReport(transactions, title)) }
     }
 
-    val categories = listOf("All", "Food & Groceries", "Shopping", "Travel", "Hotels", "Utilities", "Business", "Personal", "Other Expenses")
+    val categories = listOf("All", "Food & Groceries", "Shopping", "Travel", "Hotels", "Utilities", "Entertainment", "Business", "Personal", "Other Expenses")
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -268,6 +269,15 @@ fun MainAppScreen(viewModel: TransactionViewModel) {
         transactionToSplit?.let { trans ->
             SplitDialog(transaction = trans, onDismiss = { transactionToSplit = null }, onSave = { updatedTrans -> viewModel.insert(updatedTrans) } )
         }
+        transactionToEditCategory?.let { trans ->
+            EditCategoryDialog(
+                transaction = trans,
+                onDismiss = { transactionToEditCategory = null },
+                onConfirm = { newCat ->
+                    viewModel.update(trans.copy(category = newCat))
+                }
+            )
+        }
         
         if (showHeatmapSheet) {
             ModalBottomSheet(
@@ -308,7 +318,8 @@ fun MainAppScreen(viewModel: TransactionViewModel) {
                 TransactionList(
                     transactions = transactions,
                     modifier = Modifier.weight(1f),
-                    onTransactionClick = { transactionToSplit = it },
+                    onTransactionClick = { transactionToEditCategory = it },
+                    onDeleteTransaction = { viewModel.delete(it) },
                     headerContent = {
                         item { SummaryCard(totalAmount = totalSpending, categoryWise = categorySpending, budgets = budgets, onCalendarClick = { showHeatmapSheet = true }, currentMonthText = monthYearFormat.format(selectedDate.time)) }
                         item { SubscriptionSummary(subscriptions = subscriptions) }
@@ -394,7 +405,7 @@ fun SettingsDialog(onDismiss: () -> Unit, viewModel: TransactionViewModel) {
     var budgetAmount by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Food & Groceries") }
     var expanded by remember { mutableStateOf(false) }
-    val categories = listOf("Food & Groceries", "Shopping", "Travel", "Hotels", "Utilities", "Business", "Personal", "Other Expenses")
+    val categories = listOf("Food & Groceries", "Shopping", "Travel", "Hotels", "Utilities", "Entertainment", "Business", "Personal", "Other Expenses")
     
     val themeMode by viewModel.themeMode.collectAsState()
     val dynamicColor by viewModel.dynamicColor.collectAsState()

@@ -29,7 +29,7 @@ fun AddTransactionDialog(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val categories = listOf("Food & Groceries", "Shopping", "Travel", "Hotels", "Utilities", "Business", "Personal", "Other Expenses")
+    val categories = listOf("Food & Groceries", "Shopping", "Travel", "Hotels", "Utilities", "Entertainment", "Business", "Personal", "Other Expenses")
     var expanded by remember { mutableStateOf(false) }
 
     if (showScanner) {

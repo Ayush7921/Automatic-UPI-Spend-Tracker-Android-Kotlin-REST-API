@@ -128,18 +128,51 @@ class SmsReceiver : BroadcastReceiver() {
         val lowerMsg = message.lowercase()
         return when {
             lowerMsg.contains("zomato") || lowerMsg.contains("swiggy") || 
-            lowerMsg.contains("blinkit") || lowerMsg.contains("instamart") -> "Food & Groceries"
+            lowerMsg.contains("blinkit") || lowerMsg.contains("instamart") ||
+            lowerMsg.contains("dominos") || lowerMsg.contains("pizza hut") ||
+            lowerMsg.contains("mcdonald") || lowerMsg.contains("burger king") ||
+            lowerMsg.contains("haldiram") || lowerMsg.contains("bikaner") ||
+            lowerMsg.contains("hira") || lowerMsg.contains("aggrawal") ||
+            lowerMsg.contains("kfc") || lowerMsg.contains("subway") ||
+            lowerMsg.contains("starbucks") || lowerMsg.contains("sagar ratna") -> "Food & Groceries"
+            
             lowerMsg.contains("flipkart") || lowerMsg.contains("amazon") || 
-            lowerMsg.contains("myntra") || lowerMsg.contains("ajio") -> "Shopping"
+            lowerMsg.contains("myntra") || lowerMsg.contains("ajio") ||
+            lowerMsg.contains("nykaa") || lowerMsg.contains("meesho") ||
+            lowerMsg.contains("reliance digital") || lowerMsg.contains("croma") ||
+            lowerMsg.contains("tanishq") || lowerMsg.contains("titan") ||
+            lowerMsg.contains("zara") || lowerMsg.contains("h&m") -> "Shopping"
+            
             lowerMsg.contains("uber") || lowerMsg.contains("ola") || 
-            lowerMsg.contains("rapido") || lowerMsg.contains("irctc") -> "Travel"
+            lowerMsg.contains("rapido") || lowerMsg.contains("irctc") ||
+            lowerMsg.contains("indigo") || lowerMsg.contains("air india") ||
+            lowerMsg.contains("spicejet") || lowerMsg.contains("makemytrip") ||
+            lowerMsg.contains("goibibo") || lowerMsg.contains("cleartrip") -> "Travel"
+            
             lowerMsg.contains("hotel") || lowerMsg.contains("oyo") || 
-            lowerMsg.contains("stay") -> "Hotels"
+            lowerMsg.contains("stay") || lowerMsg.contains("airbnb") ||
+            lowerMsg.contains("mmt") || lowerMsg.contains("trivago") -> "Hotels"
+            
             lowerMsg.contains("bill") || lowerMsg.contains("recharge") || 
-            lowerMsg.contains("electricity") || lowerMsg.contains("netflix") ||
-            lowerMsg.contains("spotify") || lowerMsg.contains("youtube") -> "Utilities"
-            lowerMsg.contains("client") || lowerMsg.contains("project") -> "Business"
-            lowerMsg.contains("friend") || lowerMsg.contains("gift") -> "Personal"
+            lowerMsg.contains("electricity") || 
+            lowerMsg.contains("jio") || lowerMsg.contains("airtel") ||
+            lowerMsg.contains("vodafone") || lowerMsg.contains("idea") ||
+            lowerMsg.contains("bsnl") || lowerMsg.contains("tata play") ||
+            lowerMsg.contains("dish tv") -> "Utilities"
+            
+            lowerMsg.contains("netflix") || lowerMsg.contains("spotify") || 
+            lowerMsg.contains("youtube") || lowerMsg.contains("hotstar") ||
+            lowerMsg.contains("prime video") || lowerMsg.contains("disney") ||
+            lowerMsg.contains("zee5") || lowerMsg.contains("sony liv") ||
+            lowerMsg.contains("bookmyshow") || lowerMsg.contains("pvr") ||
+            lowerMsg.contains("inox") -> "Entertainment"
+            
+            lowerMsg.contains("client") || lowerMsg.contains("project") ||
+            lowerMsg.contains("freelance") -> "Business"
+            
+            lowerMsg.contains("friend") || lowerMsg.contains("gift") ||
+            lowerMsg.contains("donation") || lowerMsg.contains("charity") -> "Personal"
+
             else -> "Other Expenses"
         }
     }
